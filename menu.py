@@ -24,7 +24,7 @@ BLACK = (0,0,0)
 
 # FONT ----------------------------------------------------------------------------------
 
-text_font = pygame.font.Font("C:/Users/belaz/OneDrive/Informatique/Personnal/python/kvn-pokemon-gen-1.ttf",28)
+text_font = pygame.font.Font("assets/fonts/kvn-pokemon-gen-1.ttf",28)
 
 # MENU BUTTONS --------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ alt_f4R = pygame.Rect(448,548,111,60)
 
 # IMAGES --------------------------------------------------------------------------------
 
-logo = pygame.image.load("Pokemon_logo.png")
-background = pygame.image.load("background.jpg")
+logo = pygame.image.load("assets/images/Pokemon_logo.png")
+background = pygame.image.load("assets/images/background.jpg")
 background = pygame.transform.scale(background, (WIDTH,HEIGHT))
 
 # GAME LOOP -----------------------------------------------------------------------------
