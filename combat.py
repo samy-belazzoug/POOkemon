@@ -2,9 +2,9 @@ import pygame
 import random
 
 class Fight:
-    def __init__(self,player,plife,olife,opponent:list=[],tour:int=0): 
-        self.player = random.choice(player)
-        self.opponent = random.choice(opponent)
+    def __init__(self,player,plife,olife,opponent,tour:int=0): 
+        self.player = player
+        self.opponent = opponent
         self.tour = tour
         self.plife = plife
         self.olife = olife

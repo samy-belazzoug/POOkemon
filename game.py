@@ -1,9 +1,9 @@
 import pygame
+import random
 import combat
 import pokemon
 
 pygame.init()
-fight = combat.Fight(["Pikachu","Salameche","Bulbizzare","Nidorina","Carapuce","Evoli",],20,20,["Salameche","Bulbizzare","Carapuce","Evoli",])
 
 # SCREEN ------------------------------------------------------------
 
@@ -28,67 +28,7 @@ YELLOW = (255,215,0)
 bold_font = pygame.font.Font("assets/fonts/kvn-97.ttf",38)
 text_font = pygame.font.Font("assets/fonts/kvn-pokemon-gen-1.ttf",30)
 
-# IMAGES -----------------------------------------------------------
-
-arena = pygame.image.load("assets/images/arene.png")
-arena = pygame.transform.scale(arena,(WIDTH,HEIGHT))
-
-# TEXT (EVERYTHING) ------------------------------------------------
-
-    #TEXT ---------------------------------------------
-player = bold_font.render(fight.player.upper(),True,BLACK) 
-opponent = bold_font.render(fight.opponent.upper(),True,BLACK)
-life = bold_font.render(str(fight.plife),True,BLACK) 
-lifed = bold_font.render(str(fight.lifedefaultP),True,BLACK)
-win = text_font.render("You won!",True,BLACK)
-                
-
-x = text_font.render(f"{fight.player}",True,BLACK)
-y = text_font.render(f"{fight.opponent}",True,BLACK)
-isattacking = text_font.render("is attacking...",True,BLACK)
-ishealing = text_font.render("is healing...",True,BLACK)
-winR = win.get_rect(topleft=(140,650))
-
-ask = text_font.render("What do you use?",True,BLACK)
-heal = text_font.render("Heal",True,BLACK)
-
-    #RECTANGLES ---------------------------------------
-playerR = player.get_rect(topleft=(610,430))
-opponentR = opponent.get_rect(topleft=(100,50))
-lifeR = life.get_rect(topleft=(660,520))
-lifedR = lifed.get_rect(topleft=(790,520)) 
-xR = x.get_rect(topleft=(50,600))
-yr = y.get_rect(topleft=(50,600))
-isattackingR = isattacking.get_rect(topleft=(50,650))
-ishealingR = ishealing.get_rect(topleft=(50,650))
-askR = ask.get_rect(topleft=(60,600))
-healR = heal.get_rect(topleft=(60,650))
-
-# BUTTONS ---------------------------------------------------------
-
-fightB = pygame.Rect(537,630,210,45)
-pkmnB = pygame.Rect(785,629,92,52)
-itemB = pygame.Rect(535,700,165,45)
-runB = pygame.Rect(789,700,130,45)
-
-healB = pygame.Rect(50,650,100,45)
-
-# FUNCTIONS -------------------------------------------------------
-
-def display():
-    screen.blit(arena,(0,0))
-    pygame.draw.rect(screen,RED,fightB,2)
-    pygame.draw.rect(screen,GREEN,pkmnB,2)
-    pygame.draw.rect(screen,YELLOW,itemB,2)
-    pygame.draw.rect(screen,BLUE,runB,2)
-
-    screen.blit(player,playerR)
-    screen.blit(opponent,opponentR)
-
-    screen.blit(life,lifeR)
-    screen.blit(lifed,lifedR) 
-
-#POKEMONS
+# POKEMONS ----------------------------------------------------------------------------------------------
 
 pokemon_list = [
     
@@ -140,14 +80,84 @@ opponent_list = [
     pokemon.Pokemon("Dracaufeu", 78, 85, 130, ["Feu", "Vol"], "assets/sprites/front/0006.png"),
 ]
 
+player = random.choice(pokemon_list)
+opponent = random.choice(opponent_list)
+playerI = pygame.image.load(player.image_path)
+playerI = pygame.transform.scale(playerI,(300,300))
+opponentI = pygame.image.load(opponent.image_path)
+opponentI = pygame.transform.scale(opponentI,(300,300))
+
+fight = combat.Fight(player.nom,player.points_de_vie,opponent.points_de_vie,opponent.nom)
+
+# IMAGES -----------------------------------------------------------
+
+arena = pygame.image.load("assets/images/arene.png")
+arena = pygame.transform.scale(arena,(WIDTH,HEIGHT))
+
+# TEXT (EVERYTHING) ------------------------------------------------
+
+    #TEXT ---------------------------------------------
+player = bold_font.render(fight.player.upper(),True,BLACK) 
+opponent = bold_font.render(fight.opponent.upper(),True,BLACK)
+life = bold_font.render(str(fight.plife),True,BLACK) 
+lifed = bold_font.render(str(fight.lifedefaultP),True,BLACK)
+win = text_font.render("You won!",True,BLACK)
+                
+
+x = text_font.render(f"{fight.player}",True,BLACK)
+y = text_font.render(f"{fight.opponent}",True,BLACK)
+isattacking = text_font.render("is attacking...",True,BLACK)
+ishealing = text_font.render("is healing...",True,BLACK)
+winR = win.get_rect(topleft=(140,650))
+
+ask = text_font.render("What do you use?",True,BLACK)
+heal = text_font.render("Heal",True,BLACK)
+
+    #RECTANGLES ---------------------------------------
+playerR = player.get_rect(topleft=(610,430))
+opponentR = opponent.get_rect(topleft=(100,50))
+lifeR = life.get_rect(topleft=(660,520))
+lifedR = lifed.get_rect(topleft=(790,520)) 
+xR = x.get_rect(topleft=(50,600))
+yr = y.get_rect(topleft=(50,600))
+isattackingR = isattacking.get_rect(topleft=(50,650))
+ishealingR = ishealing.get_rect(topleft=(50,650))
+askR = ask.get_rect(topleft=(60,600))
+healR = heal.get_rect(topleft=(60,650))
+
+# BUTTONS ---------------------------------------------------------
+
+fightB = pygame.Rect(537,630,210,45)
+pkmnB = pygame.Rect(785,629,92,52)
+itemB = pygame.Rect(535,700,165,45)
+runB = pygame.Rect(789,700,130,45)
+
+healB = pygame.Rect(50,650,100,45)
+
+# FUNCTIONS -------------------------------------------------------
+
+def display():
+    screen.blit(arena,(0,0))
+    screen.blit(playerI,(100,280))
+    screen.blit(opponentI,(600,30))
+    
+    pygame.draw.rect(screen,RED,fightB,2)
+    pygame.draw.rect(screen,GREEN,pkmnB,2)
+    pygame.draw.rect(screen,YELLOW,itemB,2)
+    pygame.draw.rect(screen,BLUE,runB,2)
+
+    screen.blit(player,playerR)
+    screen.blit(opponent,opponentR)
+
+    screen.blit(life,lifeR)
+    screen.blit(lifed,lifedR) 
+
 #GAME LOOP --------------------------------------------------------
 
 running = True
 while running:
 
     mouse_pos = pygame.mouse.get_pos()
-    life = bold_font.render(str(fight.plife),True,BLACK) 
-
     display()
     def check_win():
             if fight.olife <= 0:
@@ -167,6 +177,7 @@ while running:
                 screen.blit(lose,loseR)
                 pygame.display.flip()
                 return True
+
     check_win()
     check_lost()
 
@@ -242,7 +253,7 @@ while running:
     check_win()
     check_lost()
 
-    life = bold_font.render(str(fight.plife),True,BLACK) 
+
     display()
     
     pygame.display.flip()
