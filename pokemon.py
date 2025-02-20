@@ -11,7 +11,6 @@ class Pokemon:
         self.types = types
         self.image_path = image_path
         self.parent = parent
-        
         self.image = self.load_image(image_path)
 
     def load_image(self, image_path):
