@@ -1,5 +1,6 @@
 import pygame
 import combat
+import pokemon
 
 pygame.init()
 fight = combat.Fight(["Pikachu","Salameche","Bulbizzare","Nidorina","Carapuce","Evoli",],20,20,["Salameche","Bulbizzare","Carapuce","Evoli",])
@@ -87,6 +88,58 @@ def display():
     screen.blit(life,lifeR)
     screen.blit(lifed,lifedR) 
 
+#POKEMONS
+
+pokemon_list = [
+    
+    pokemon.Pokemon("Abra", 25, 15, 30, ["Psy"], "assets/sprites/back/0063(1).png"),
+    pokemon.Pokemon("Bulbizarre", 45, 49, 49, ["Plante", "Poison"], "assets/sprites/back/0001(1).png"),
+    pokemon.Pokemon("Evoli", 55, 50, 45, ["Normal"], "assets/sprites/back/0133(1).png"),
+    pokemon.Pokemon("Pikachu", 35, 30, 55, ["Électrique"], "assets/sprites/back/0025(1).png"),
+    pokemon.Pokemon("Salamèche", 39, 43, 52, ["Feu"], "assets/sprites/back/0004(1).png"),
+    pokemon.Pokemon("Mewtwo", 106, 90, 150, ["Psy"], "assets/sprites/back/0150(1).png"),
+    pokemon.Pokemon("Ectoplasma", 50, 55, 65, ["Spectre", "Poison"], "assets/sprites/back/0094(1).png"),
+    pokemon.Pokemon("Chenipan", 45, 35, 29, ["Insecte"], "assets/sprites/back/0010(1).png"),
+    pokemon.Pokemon("Psyduck", 50, 48, 52, ["Eau"], "assets/sprites/back/0054(1).png"),
+    pokemon.Pokemon("Ronflex", 160, 65, 110, ["Normal"], "assets/sprites/back/0143(1).png"),
+    pokemon.Pokemon("Papilusion", 60, 50, 45, ["Insecte", "Vol"], "assets/sprites/back/0012(1).png"),
+    pokemon.Pokemon("Rondoudou", 115, 45, 50, ["Fée", "Normal"], "assets/sprites/back/0039(1).png"),
+    pokemon.Pokemon("Slowbro", 95, 80, 75, ["Eau", "Psy"], "assets/sprites/back/0080(1).png"),
+    pokemon.Pokemon("Moltres", 90, 90, 100, ["Feu", "Vol"], "assets/sprites/back/0146(1).png"),
+    pokemon.Pokemon("Vaporeon", 130, 60, 65, ["Eau"], "assets/sprites/back/0134(1).png"),
+    pokemon.Pokemon("Zapdos", 90, 85, 90, ["Électrique", "Vol"], "assets/sprites/back/0145(1).png"),
+    pokemon.Pokemon("Scyther", 70, 80, 110, ["Insecte", "Vol"], "assets/sprites/back/0123(1).png"),
+    pokemon.Pokemon("Dugtrio", 35, 35, 100, ["Sol"], "assets/sprites/back/0051(1).png"),
+    pokemon.Pokemon("Flareon", 65, 60, 130, ["Feu"], "assets/sprites/back/0136(1).png"),
+    pokemon.Pokemon("Gyarados", 95, 79, 125, ["Eau", "Vol"], "assets/sprites/back/0130(1).png"),
+    pokemon.Pokemon("Dracaufeu", 78, 85, 130, ["Feu", "Vol"], "assets/sprites/back/0006(1).png"),
+]
+
+opponent_list = [
+    
+    pokemon.Pokemon("Abra", 25, 15, 30, ["Psy"], "assets/sprites/front/0063.png"),
+    pokemon.Pokemon("Bulbizarre", 45, 49, 49, ["Plante", "Poison"], "assets/sprites/front/0001.png"),
+    pokemon.Pokemon("Evoli", 55, 50, 45, ["Normal"], "assets/sprites/front/0133.png"),
+    pokemon.Pokemon("Pikachu", 35, 30, 55, ["Électrique"], "assets/sprites/front/0025.png"),
+    pokemon.Pokemon("Salamèche", 39, 43, 52, ["Feu"], "assets/sprites/front/0004.png"),
+    pokemon.Pokemon("Mewtwo", 106, 90, 150, ["Psy"], "assets/sprites/front/0150.png"),
+    pokemon.Pokemon("Ectoplasma", 50, 55, 65, ["Spectre", "Poison"], "assets/sprites/front/0094.png"),
+    pokemon.Pokemon("Chenipan", 45, 35, 29, ["Insecte"], "assets/sprites/front/0010.png"),
+    pokemon.Pokemon("Psyduck", 50, 48, 52, ["Eau"], "assets/sprites/front/0054.png"),
+    pokemon.Pokemon("Ronflex", 160, 65, 110, ["Normal"], "assets/sprites/front/0143.png"),
+    pokemon.Pokemon("Papilusion", 60, 50, 45, ["Insecte", "Vol"], "assets/sprites/front/0012.png"),
+    pokemon.Pokemon("Rondoudou", 115, 45, 50, ["Fée", "Normal"], "assets/sprites/front/0039.png"),
+    pokemon.Pokemon("Slowbro", 95, 80, 75, ["Eau", "Psy"], "assets/sprites/front/0080.png"),
+    pokemon.Pokemon("Moltres", 90, 90, 100, ["Feu", "Vol"], "assets/sprites/front/0146.png"),
+    pokemon.Pokemon("Vaporeon", 130, 60, 65, ["Eau"], "assets/sprites/front/0134.png"),
+    pokemon.Pokemon("Zapdos", 90, 85, 90, ["Électrique", "Vol"], "assets/sprites/front/0145.png"),
+    pokemon.Pokemon("Scyther", 70, 80, 110, ["Insecte", "Vol"], "assets/sprites/front/0123.png"),
+    pokemon.Pokemon("Dugtrio", 35, 35, 100, ["Sol"], "assets/sprites/front/0051.png"),
+    pokemon.Pokemon("Flareon", 65, 60, 130, ["Feu"], "assets/sprites/front/0136.png"),
+    pokemon.Pokemon("Gyarados", 95, 79, 125, ["Eau", "Vol"], "assets/sprites/front/0130.png"),
+    pokemon.Pokemon("Dracaufeu", 78, 85, 130, ["Feu", "Vol"], "assets/sprites/front/0006.png"),
+]
+
 #GAME LOOP --------------------------------------------------------
 
 running = True
@@ -159,21 +212,6 @@ while running:
                     affichage = False
 
             #ITEM BUTTON -------------------------------------------------------------------        
-            """
-            if itemB.collidepoint(mouse_pos):
-                screen.blit(ask,askR)
-                screen.blit(heal,healR)
-                pygame.draw.rect(screen,BLUE,healB,2)
-                pygame.display.flip()
-                pygame.time.delay(1000)
-                if healB.collidepoint(mouse_pos):  
-                    screen.blit(x,xR)
-                    screen.blit(ishealing,ishealingR)
-                    pygame.display.flip()
-                    pygame.time.delay(1000)
-                    fight.heal()
-                    fight.attack_opponent()
-            """
 
             if itemB.collidepoint(mouse_pos):
                 screen.blit(x,xR)
