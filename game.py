@@ -45,7 +45,11 @@ win = text_font.render("You won!",True,BLACK)
 x = text_font.render(f"{fight.player}",True,BLACK)
 y = text_font.render(f"{fight.opponent}",True,BLACK)
 isattacking = text_font.render("is attacking...",True,BLACK)
+ishealing = text_font.render("is healing...",True,BLACK)
 winR = win.get_rect(topleft=(140,650))
+
+ask = text_font.render("What do you use?",True,BLACK)
+heal = text_font.render("Heal",True,BLACK)
 
     #RECTANGLES ---------------------------------------
 playerR = player.get_rect(topleft=(610,430))
@@ -55,6 +59,9 @@ lifedR = lifed.get_rect(topleft=(790,520))
 xR = x.get_rect(topleft=(50,600))
 yr = y.get_rect(topleft=(50,600))
 isattackingR = isattacking.get_rect(topleft=(50,650))
+ishealingR = ishealing.get_rect(topleft=(50,650))
+askR = ask.get_rect(topleft=(60,600))
+healR = heal.get_rect(topleft=(60,650))
 
 # BUTTONS ---------------------------------------------------------
 
@@ -62,6 +69,8 @@ fightB = pygame.Rect(537,630,210,45)
 pkmnB = pygame.Rect(785,629,92,52)
 itemB = pygame.Rect(535,700,165,45)
 runB = pygame.Rect(789,700,130,45)
+
+healB = pygame.Rect(50,650,100,45)
 
 # FUNCTIONS -------------------------------------------------------
 
@@ -77,10 +86,9 @@ def display():
 
     screen.blit(life,lifeR)
     screen.blit(lifed,lifedR) 
-  
-
 
 #GAME LOOP --------------------------------------------------------
+
 running = True
 while running:
 
@@ -118,7 +126,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
 
             #FIGHT BUTTON ------------------------------------------------------------------
-
+            
             if fightB.collidepoint(mouse_pos):        
                 affichage = True
                 while affichage != False:
@@ -148,8 +156,44 @@ while running:
                     if check_lost() == True:
                          affichage = False
                     
-                         
                     affichage = False
+
+            #ITEM BUTTON -------------------------------------------------------------------        
+            """
+            if itemB.collidepoint(mouse_pos):
+                screen.blit(ask,askR)
+                screen.blit(heal,healR)
+                pygame.draw.rect(screen,BLUE,healB,2)
+                pygame.display.flip()
+                pygame.time.delay(1000)
+                if healB.collidepoint(mouse_pos):  
+                    screen.blit(x,xR)
+                    screen.blit(ishealing,ishealingR)
+                    pygame.display.flip()
+                    pygame.time.delay(1000)
+                    fight.heal()
+                    fight.attack_opponent()
+            """
+
+            if itemB.collidepoint(mouse_pos):
+                screen.blit(x,xR)
+                screen.blit(ishealing,ishealingR)
+                pygame.display.flip()
+                fight.heal()
+                pygame.time.delay(1000)
+                
+                screen.fill(WHITE)
+                display()
+                pygame.time.delay(500)
+                screen.blit(y,yr)
+                screen.blit(isattacking,isattackingR)
+                pygame.display.flip()
+                pygame.time.delay(1000)
+                fight.attack_opponent()
+                #affichage = False
+                
+            """PYREVERSE STP FAIS UN DIAGRAMME DE CLASSE"""
+
 
             #RUN BUTTON --------------------------------------------------------------------
             
