@@ -3,6 +3,7 @@ class Pokemon:
 
         self.nom = nom
         self.points_de_vie = points_de_vie
+        self.points_de_vieD = points_de_vie
         self.defense = defense
         self.attaque = attaque
         self.types = types

@@ -2,6 +2,7 @@ import pygame
 import random
 import combat
 import pokemon
+from pylint import pyreverse
 
 pygame.init()
 
@@ -22,6 +23,7 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
+DARKGREEN = (0,170,50)
 BLUE = (0,0,255)
 YELLOW = (255,215,0)
 
@@ -87,7 +89,7 @@ playerI = pygame.transform.scale(playerI,(300,300))
 opponentI = pygame.image.load(opponent.image_path)
 opponentI = pygame.transform.scale(opponentI,(300,300))
 
-fight = combat.Fight(player.nom,player.points_de_vie,opponent.points_de_vie,opponent.nom)
+fight = combat.Fight(player,opponent)
 
 # IMAGES -----------------------------------------------------------
 
@@ -97,15 +99,15 @@ arena = pygame.transform.scale(arena,(WIDTH,HEIGHT))
 # TEXT (EVERYTHING) ------------------------------------------------
 
     #TEXT ---------------------------------------------
-player = bold_font.render(fight.player.upper(),True,BLACK) 
-opponent = bold_font.render(fight.opponent.upper(),True,BLACK)
+
+player = bold_font.render(fight.player.nom.upper(),True,BLACK) 
+opponent = bold_font.render(fight.opponent.nom.upper(),True,BLACK)
 life = bold_font.render(str(fight.plife),True,BLACK) 
 lifed = bold_font.render(str(fight.lifedefaultP),True,BLACK)
 win = text_font.render("You won!",True,BLACK)
                 
-
-x = text_font.render(f"{fight.player}",True,BLACK)
-y = text_font.render(f"{fight.opponent}",True,BLACK)
+x = text_font.render(f"{fight.player.nom}",True,BLACK)
+y = text_font.render(f"{fight.opponent.nom}",True,BLACK)
 isattacking = text_font.render("is attacking...",True,BLACK)
 ishealing = text_font.render("is healing...",True,BLACK)
 winR = win.get_rect(topleft=(140,650))
@@ -116,7 +118,7 @@ heal = text_font.render("Heal",True,BLACK)
     #RECTANGLES ---------------------------------------
 playerR = player.get_rect(topleft=(610,430))
 opponentR = opponent.get_rect(topleft=(100,50))
-lifeR = life.get_rect(topleft=(660,520))
+lifeR = life.get_rect(topleft=(625,520))
 lifedR = lifed.get_rect(topleft=(790,520)) 
 xR = x.get_rect(topleft=(50,600))
 yr = y.get_rect(topleft=(50,600))
@@ -127,30 +129,53 @@ healR = heal.get_rect(topleft=(60,650))
 
 # BUTTONS ---------------------------------------------------------
 
+lifeBAR = pygame.Rect(660,498,250,6)
+lifeBAR2 = pygame.Rect(168,122,250,6)
+
 fightB = pygame.Rect(537,630,210,45)
 pkmnB = pygame.Rect(785,629,92,52)
 itemB = pygame.Rect(535,700,165,45)
 runB = pygame.Rect(789,700,130,45)
-
 healB = pygame.Rect(50,650,100,45)
 
 # FUNCTIONS -------------------------------------------------------
 
+barPLAYER = 250
+barOPPONENT = 250
+
 def display():
+
     screen.blit(arena,(0,0))
-    screen.blit(playerI,(100,280))
-    screen.blit(opponentI,(600,30))
+    screen.blit(playerI,(100,282))
+    screen.blit(opponentI,(600,60))
+    
+    pygame.draw.rect(screen,RED,lifeBAR)
+    pygame.draw.rect(screen,RED,lifeBAR2)
+    lifeBPOKEMON = pygame.Rect(660,498,barPLAYER,6)
+    lifeBOPPONENT = pygame.Rect(168,122,barOPPONENT,6)
     
     pygame.draw.rect(screen,RED,fightB,2)
     pygame.draw.rect(screen,GREEN,pkmnB,2)
     pygame.draw.rect(screen,YELLOW,itemB,2)
     pygame.draw.rect(screen,BLUE,runB,2)
-
+    pygame.draw.rect(screen,DARKGREEN,lifeBPOKEMON)
+    pygame.draw.rect(screen,DARKGREEN,lifeBOPPONENT)
     screen.blit(player,playerR)
     screen.blit(opponent,opponentR)
 
     screen.blit(life,lifeR)
     screen.blit(lifed,lifedR) 
+
+def barstatus():
+    global barPLAYER
+    global barOPPONENT
+    deltaP = fight.plife/fight.lifedefaultP
+    print(deltaP)
+    deltaO = fight.olife/fight.lifedefaultO
+    print(deltaO)
+    barPLAYER *= deltaP
+    barOPPONENT *= deltaO
+    
 
 #GAME LOOP --------------------------------------------------------
 
@@ -198,6 +223,7 @@ while running:
                     screen.blit(isattacking,isattackingR)
                     pygame.display.flip()
                     fight.attack_player()
+                    barstatus()
                     if fight.olife <= 0:
                          affichage = False
                     
@@ -214,6 +240,7 @@ while running:
                     screen.blit(isattacking,isattackingR)
                     pygame.display.flip()
                     fight.attack_opponent()
+                    barstatus()
                     if fight.plife <= 0:
                         affichage = False
                     
@@ -221,7 +248,8 @@ while running:
                          affichage = False
                     
                     affichage = False
-
+                    
+            
             #ITEM BUTTON -------------------------------------------------------------------        
 
             if itemB.collidepoint(mouse_pos):
@@ -238,6 +266,7 @@ while running:
                 screen.blit(isattacking,isattackingR)
                 pygame.display.flip()
                 pygame.time.delay(1000)
+                life = bold_font.render(str(fight.plife),True,BLACK) 
                 fight.attack_opponent()
                 #affichage = False
                 
@@ -253,7 +282,7 @@ while running:
     check_win()
     check_lost()
 
-
+    life = bold_font.render(str(fight.plife),True,BLACK) 
     display()
     
     pygame.display.flip()

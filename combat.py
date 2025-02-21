@@ -1,18 +1,26 @@
 import pygame
 import random
+import pokemon
 
 class Fight:
-    def __init__(self,player,plife,olife,opponent,tour:int=0): 
+    def __init__(self,player:pokemon.Pokemon,opponent:pokemon.Pokemon,tour:int=0): 
         self.player = player
         self.opponent = opponent
         self.tour = tour
-        self.plife = plife
-        self.olife = olife
-        self.lifedefaultP = plife
-        self.lifedefaultO = olife
+        self.plife = player.points_de_vie
+        self.olife = opponent.points_de_vie
+        self.lifedefaultP = self.plife
+        self.lifedefaultO = self.olife
+
+    def get_lifeP(self):
+        return self.lifedefaultP
+
+    def get_lifeO(self):
+        return self.lifedefaultO
+    
 
     def attack_player(self): #attaquer
-        points = random.randint(4,12)
+        points = random.randint(int(self.player.attaque/1.5),int(self.player.attaque))
         if self.tour == 0: #player attaque
             
             dodge = random.randint(0,10)
@@ -30,7 +38,7 @@ class Fight:
                 return print(f"Au tour de {self.opponent}")
         
     def attack_opponent(self): #attaquer
-        points = random.randint(4,12)
+        points = random.randint(int(self.opponent.attaque/1.5),int(self.opponent.attaque))
         if self.tour == 1: #opponent attaque
             
             dodge = random.randint(0,10)
@@ -82,36 +90,6 @@ class Fight:
                 pygame.time.delay(1000)
                 return f"Its time for {self.player}"
 
-    """
-    def opponent(self):
-        if self.tour == 1: #player attaque
-            dodge_detect = random.randint(0,10)
-            if dodge_detect not in [0,1,3,5,6,7,8,10]: #Si dodge == 2,4,9
-                self.tour = 0
-                return f"Dodged!"
-            
-            if self.olife < 7:
-                p = random.randint(0,2)
-                if p == 0:
-                    pygame.time.delay(1000)
-                    self.heal()
-                    #pygame.time.delay(1000)
-                else:
-                    pygame.time.delay(1000)
-                    self.attack_opponent()
-                    #pygame.time.delay(1000)
-            else:
-                self.attack_opponent()
-                #pointsO = random.randint(4,12)
-                #print(f"{self.opponent} attacked !")
-                #self.plife -= pointsO
-                #pygame.time.delay(1000)
-                #print(f"{self.player} lost {pointsO} points. Hes got {self.plife} left.\n")
-                #pygame.time.delay(1000)
-                #self.tour = 0
-                #return print(f"Its time for {self.player}")
-    """
-
 
     def fight(self):
         """EXECUTE A FIGHT IN THE TERMINAL"""
@@ -136,7 +114,7 @@ class Fight:
                     pygame.time.delay(1000)
                 else:
                     pygame.time.delay(1000)
-                    self.attack(random.randint(4,12))
+                    self.attack(random.randint(self.player.attaque/2,self.player.attaque))
                     pygame.time.delay(1000)
             else:
                 self.attack(random.randint(4,12))
@@ -145,6 +123,7 @@ class Fight:
                 print (f"{self.opponent} wins!")
                 break
 
-       
-combat = Fight("Pikachu",20,20,["Salameche","Bulbizzare","Carapuce","Evoli",])
-#combat.fight()
+
+if __name__ == "__main__":   
+    combat = Fight("Pikachu",20,20,["Salameche","Bulbizzare","Carapuce","Evoli",])
+    #combat.fight()
